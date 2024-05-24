@@ -12,5 +12,9 @@ After required libraries installed, install `quantgene` by below command:
 ```
 pip install .
 ```
-## Usage
+## Basic usage
+To run `quantgene` 
+```
+quantgene [-h] [--x X] [--y Y] [--p_title P_TITLE] [--o_title O_TITLE] file1 file2 out_dir
+```
 
