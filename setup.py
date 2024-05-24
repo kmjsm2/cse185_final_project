@@ -17,7 +17,7 @@ with open(os.path.join(curdir, 'genevis/version.py'), 'w') as fout:
 
 
 setup(
-    name='gene_vis',
+    name='genevis',
     version=VERSION,
     description='CSE185 Project create scatter and volcano plot for gene.results file',
     author='Nayoung Kim, MyungJoo Kim, Soyeon Lee',
