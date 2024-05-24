@@ -7,7 +7,7 @@ MAJ = 0
 MIN = 0
 REV = 0
 VERSION = '%d.%d.%d' % (MAJ, MIN, REV)
-with open(os.path.join(curdir, 'genevis/version.py'), 'w') as fout:
+with open(os.path.join(curdir, 'quantgene/version.py'), 'w') as fout:
         fout.write(
             "\n".join(["",
                        "# THIS FILE IS GENERATED FROM SETUP.PY",
@@ -17,15 +17,15 @@ with open(os.path.join(curdir, 'genevis/version.py'), 'w') as fout:
 
 
 setup(
-    name='genevis',
+    name='quantgene',
     version=VERSION,
-    description='CSE185 Project create scatter and volcano plot for gene.results file',
+    description='CSE185 Project that converts gene expression units',
     author='Nayoung Kim, MyungJoo Kim, Soyeon Lee',
     author_email='nak003@ucsd.edu, myk001@ucsd.edu, sol020@ucsd.edu',
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "genevis=genevis.genevis:main"
+            "quantgene=quantgene.quantgene:main"
         ],
     },
 )
