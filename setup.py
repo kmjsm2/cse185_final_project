@@ -7,7 +7,7 @@ MAJ = 0
 MIN = 0
 REV = 0
 VERSION = '%d.%d.%d' % (MAJ, MIN, REV)
-with open(os.path.join(curdir, 'gene-vis/version.py'), 'w') as fout:
+with open(os.path.join(curdir, 'gene_vis/version.py'), 'w') as fout:
         fout.write(
             "\n".join(["",
                        "# THIS FILE IS GENERATED FROM SETUP.PY",
@@ -17,7 +17,7 @@ with open(os.path.join(curdir, 'gene-vis/version.py'), 'w') as fout:
 
 
 setup(
-    name='gene-vis',
+    name='gene_vis',
     version=VERSION,
     description='CSE185 Project create scatter and volcano plot for gene.results file',
     author='Nayoung Kim, MyungJoo Kim, Soyeon Lee',
@@ -25,7 +25,7 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "gene-vis=gene-vis.gene-vis:main"
+            "gene_vis=gene_vis.gene_vis:main"
         ],
     },
 )
