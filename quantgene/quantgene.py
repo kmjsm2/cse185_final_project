@@ -44,7 +44,7 @@ def generate_scatter_plot(data, x_column, y_column, title, output_file):
     plt.close()
 
 def main():
-    parser = argparse.ArgumentParser(prog="gene-vis",
+    parser = argparse.ArgumentParser(prog="quantgene",
                                      description="Command-line script to create scatter plot from two inputs of gene.results files")
     parser.add_argument('gene_results_file1', type=str, help='Path to the first gene.results file')
     parser.add_argument('gene_results_file2', type=str, help='Path to the second gene.results file')
