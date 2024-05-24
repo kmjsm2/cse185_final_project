@@ -1,8 +1,3 @@
-def main():
-    print("Hello, this is the quantgene program.")
-    
-# if __name__ == "__main__":
-#     main()
 import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,21 +41,21 @@ def generate_scatter_plot(data, x_column, y_column, title, output_file):
 def main():
     parser = argparse.ArgumentParser(prog="quantgene",
                                      description="Command-line script to create scatter plot from two inputs of gene.results files")
-    parser.add_argument('gene_results_file1', type=str, help='Path to the first gene.results file')
-    parser.add_argument('gene_results_file2', type=str, help='Path to the second gene.results file')
-    parser.add_argument('output_directory', type=str, help='Directory to save the output plot')
-    parser.add_argument('--x_column', type=str, default='TPM_Rep1', help='Column name for x-axis values in the merged data')
-    parser.add_argument('--y_column', type=str, default='TPM_Rep2', help='Column name for y-axis values in the merged data')
-    parser.add_argument('--plot_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
-    
+    parser.add_argument('file1', type=str, help='Path to the first gene.results file')
+    parser.add_argument('file2', type=str, help='Path to the second gene.results file')
+    parser.add_argument('out_dir', type=str, help='Directory to save the output plot')
+    parser.add_argument('--x', type=str, default='TPM_Rep1', help='Column name for x-axis values in the merged data')
+    parser.add_argument('--y', type=str, default='TPM_Rep2', help='Column name for y-axis values in the merged data')
+    parser.add_argument('--p_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
+    parser.add_argument('--o_title', type=str, default='TPM Scatter Plot', help='Title of the scatter plot.png')
     args = parser.parse_args()
     
     # Read and merge the gene results files
-    data_merged = read_and_merge_gene_results(args.gene_results_file1, args.gene_results_file2)
+    data_merged = read_and_merge_gene_results(args.file1, args.file2)
     
     # Generate scatter plot
-    output_file_path = f"{args.output_directory}/scatter_plot_TPM.png"
-    generate_scatter_plot(data_merged, args.x_column, args.y_column, args.plot_title, output_file_path)
+    output_file_path = f"{args.out_dir}/{args.o_title}"
+    generate_scatter_plot(data_merged, args.x, args.y, args.p_title, output_file_path)
 
 if __name__ == '__main__':
     main()
