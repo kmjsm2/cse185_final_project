@@ -7,7 +7,7 @@ MAJ = 0
 MIN = 0
 REV = 0
 VERSION = '%d.%d.%d' % (MAJ, MIN, REV)
-with open(os.path.join(curdir, 'gene_vis/version.py'), 'w') as fout:
+with open(os.path.join(curdir, 'genevis/version.py'), 'w') as fout:
         fout.write(
             "\n".join(["",
                        "# THIS FILE IS GENERATED FROM SETUP.PY",
@@ -25,7 +25,7 @@ setup(
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "gene_vis=gene_vis.gene_vis:main"
+            "genevis=genevis.genevis:main"
         ],
     },
 )
