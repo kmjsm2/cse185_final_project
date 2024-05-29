@@ -1,5 +1,5 @@
 # quantgene
-`quantgene` takes in file with relative gene expression units as a input and outputs converted gene expression units.
+`quantgene` takes in file with relative gene expression units as a input and outputs scatter plot of TPM values.
 ## Installiation 
 Installiation requires the `pandas`, `numpy`, and `matplotlib.pyplot` libraries to be installed. 
 
