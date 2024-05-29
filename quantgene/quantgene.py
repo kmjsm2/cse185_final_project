@@ -44,8 +44,6 @@ def main():
     parser.add_argument('file1', type=str, help='Path to the first gene.results file')
     parser.add_argument('file2', type=str, help='Path to the second gene.results file')
     parser.add_argument('out_dir', type=str, help='Directory to save the output plot')
-    parser.add_argument('--x', type=str, default='TPM_Rep1', help='Column name for x-axis values in the merged data')
-    parser.add_argument('--y', type=str, default='TPM_Rep2', help='Column name for y-axis values in the merged data')
     parser.add_argument('--p_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
     parser.add_argument('--o_title', type=str, default='TPM Scatter Plot', help='Title of the scatter plot.png')
     args = parser.parse_args()
@@ -55,7 +53,7 @@ def main():
     
     # Generate scatter plot
     output_file_path = f"{args.out_dir}/{args.o_title}"
-    generate_scatter_plot(data_merged, args.x, args.y, args.p_title, output_file_path)
+    generate_scatter_plot(data_merged, 'TPM_Rep1', 'TPM_Rep2', args.p_title, output_file_path)
 
 if __name__ == '__main__':
     main()
