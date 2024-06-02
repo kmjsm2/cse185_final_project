@@ -69,22 +69,45 @@ def generate_scatter_plot(data, x_column, y_column, title, output_file):
     plt.savefig(output_file)
     plt.close()
 
+def fpkm_to_tpm(fpkm):
+    """
+    Convert FPKM to TPM.
+    :param fpkm: FPKM values
+    :return: TPM values
+    """
+    sum_fpkm = np.sum(fpkm, axis=0)
+    tpm = (fpkm / sum_fpkm) * 1e6
+    return tpm
+
 def main():
     parser = argparse.ArgumentParser(prog="quantgene",
-                                     description="Command-line script to create scatter plot from two inputs of gene.results files")
+                                     description="Command-line script to create scatter plot from two inputs of gene.results files and convert between FPKM and TPM")
+    parser.add_argument('mode', type=str, choices=['scatter', 'convert'], help='Mode of operation: scatter for scatter plot, convert for gene expression conversion')
     parser.add_argument('file1', type=str, help='Path to the first gene.results file')
-    parser.add_argument('file2', type=str, help='Path to the second gene.results file')
-    parser.add_argument('out_dir', type=str, help='Directory to save the output plot')
+    parser.add_argument('file2', type=str, help='Path to the second gene.results file (not required for convert mode)', nargs='?')
+    parser.add_argument('out_dir', type=str, help='Directory to save the output plot or converted files')
     parser.add_argument('--p_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
     parser.add_argument('--o_title', type=str, default='TPM_Scatter_Plot.png', help='Name of the output scatter plot file')
     args = parser.parse_args()
-    
-    # Read and merge the gene results files
-    data_merged = read_and_merge_gene_results(args.file1, args.file2)
-    
-    # Generate scatter plot
-    output_file_path = f"{args.out_dir}/{args.o_title}"
-    generate_scatter_plot(data_merged, 'TPM_Rep1', 'TPM_Rep2', args.p_title, output_file_path)
+
+    if args.mode == 'scatter':
+        # Read and merge the gene results files
+        data_merged = read_and_merge_gene_results(args.file1, args.file2)
+
+        # Generate scatter plot
+        output_file_path = f"{args.out_dir}/{args.o_title}"
+        generate_scatter_plot(data_merged, 'TPM_Rep1', 'TPM_Rep2', args.p_title, output_file_path)
+    elif args.mode == 'convert':
+        # Read the gene results file
+        data = read_file_with_fallback(args.file1)
+        if 'TPM' in data.columns:
+            data['Calc_TPM'] = fpkm_to_tpm(data['FPKM'])
+        else: 
+            data['TPM'] = fpkm_to_tpm(data['FPKM'])
+
+        output_file_path = f"{args.out_dir}/converted_data.csv"
+        data.to_csv(output_file_path, index=False)
+        print(f"Converted data saved to {output_file_path}")
 
 if __name__ == '__main__':
     main()
