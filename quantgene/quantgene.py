@@ -81,7 +81,7 @@ def fpkm_to_tpm(fpkm):
 
 def main():
     parser = argparse.ArgumentParser(prog="quantgene",
-                                     description="Command-line script to create scatter plot from two inputs of gene.results files and convert between FPKM and TPM")
+                                     description="Command-line script to create scatter plot from two inputs of gene.results files and convert from FPKM to TPM")
     parser.add_argument('mode', type=str, choices=['scatter', 'convert'], help='Mode of operation: scatter for scatter plot, convert for gene expression conversion')
     parser.add_argument('file1', type=str, help='Path to the first gene.results file')
     parser.add_argument('file2', type=str, help='Path to the second gene.results file (not required for convert mode)', nargs='?')
