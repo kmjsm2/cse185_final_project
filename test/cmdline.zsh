@@ -71,7 +71,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 # Determine the path to quantgene.py relative to this script
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 QUANTGENE_PY="$SCRIPT_DIR/../quantgene/quantgene.py"
 
 # Execute the Python script based on the mode
