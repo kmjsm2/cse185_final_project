@@ -1,4 +1,4 @@
-To run the test using cmdline_test.sh:s
+To run the test using cmdline_test.sh:
 ```
 cd quantgene/test 
 chomd +x cmdline_test.sh 
