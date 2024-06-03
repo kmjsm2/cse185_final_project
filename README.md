@@ -5,9 +5,9 @@ To download this tool, clone this repository:
 ```
 git clone https://github.com/kmjsm2/cse185_final_project
 ```
-Then change the current folder to cse185_final_project by:
+Then change the current folder to quantgene by:
 ```
-cd cse185_final_project
+cd quantgene
 ```
 ## Installiation  
 `quantgene` requires the `pandas`, `numpy`, and `matplotlib.pyplot` libraries to be installed. 
