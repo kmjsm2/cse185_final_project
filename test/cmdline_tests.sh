@@ -12,7 +12,7 @@ die()
 runcmd_pass()
 {
     echo "[runcmd_pass]: $1"
-    sh -c "$1" || die "Error running: $1"
+    sh -c "$1" 2>/dev/null || die "Error running: $1"
 }
 
 runcmd_fail()
@@ -48,8 +48,27 @@ TMPDIR=$(mktemp -d -t tmp-XXXXXXXXXX)
 
 echo "Saving tmp files in ${TMPDIR}"
 
-# Define the path to quantgene.py
-QUANTGENE_PATH="$QUANTGENE_DIR/quantgene.py"
+# Function to find quantgene.py in common directories
+find_quantgene_py() {
+    local search_dirs=("$PWD" "$PWD/.." "$PWD/../.." "$PWD/../../..")
+    for dir in "${search_dirs[@]}"; do
+        if [ -f "$dir/quantgene/quantgene.py" ]; then
+            echo "$dir/quantgene/quantgene.py"
+            return
+        fi
+    done
+    echo ""
+}
+
+# Automatically find the path to quantgene.py
+QUANTGENE_PATH=$(find_quantgene_py)
+
+if [ -z "$QUANTGENE_PATH" ]; then
+    echo "Could not find quantgene.py. Please set the QUANTGENE_DIR environment variable to the directory containing quantgene.py."
+    exit 1
+fi
+
+echo "Using quantgene.py found at: $QUANTGENE_PATH"
 
 # Successful tests
 if [ "$MODE" = "scatter" ]; then
