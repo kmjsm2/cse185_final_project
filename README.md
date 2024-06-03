@@ -1,11 +1,20 @@
 # quantgene
 `quantgene` takes in file with relative gene expression units as a input and outputs file including converted TPM value or scatter plot of TPM values based on the user's choice.
-## Installiation 
-Installiation requires the `pandas`, `numpy`, and `matplotlib.pyplot` libraries to be installed. 
+## Download 
+To download this tool, clone this repository:
+```
+git clone https://github.com/kmjsm2/cse185_final_project
+```
+Then change the current folder to cse185_final_project by:
+```
+cd cse185_final_project
+```
+## Installiation  
+`quantgene` requires the `pandas`, `numpy`, and `matplotlib.pyplot` libraries to be installed. 
 
 To install those libraries: 
 ```
-pip install -r requirements.txt
+pip install pandas numpy matplotlib
 ```
 
 After required libraries installed, install `quantgene` by below command: 
