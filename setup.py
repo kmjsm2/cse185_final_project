@@ -23,16 +23,7 @@ setup(
     author='Nayoung Kim, MyungJoo Kim, Soyeon Lee',
     author_email='nak003@ucsd.edu, myk001@ucsd.edu, sol020@ucsd.edu',
     packages=find_packages(),
-    install_requires=[
-        'pandas',
-        'numpy',
-        'matplotlib'
-    ],
-    classifiers=[
-        'Programming Language :: Python :: 3.10',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: Linux',
-    ],
+    
     entry_points={
         "console_scripts": [
             "quantgene=quantgene.quantgene:main"
