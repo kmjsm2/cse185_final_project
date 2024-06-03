@@ -2,7 +2,6 @@ import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 
 def read_file_with_fallback(file_path):
     """
@@ -91,27 +90,22 @@ def main():
     parser.add_argument('--o_title', type=str, default='TPM_Scatter_Plot.png', help='Name of the output scatter plot file')
     args = parser.parse_args()
 
-    # Ensure the output directory exists
-    if not os.path.exists(args.out_dir):
-        os.makedirs(args.out_dir)
-
     if args.mode == 'scatter':
         # Read and merge the gene results files
         data_merged = read_and_merge_gene_results(args.file1, args.file2)
 
         # Generate scatter plot
-        output_file_path = os.path.join(args.out_dir, args.o_title)
+        output_file_path = f"{args.out_dir}/{args.o_title}"
         generate_scatter_plot(data_merged, 'TPM_Rep1', 'TPM_Rep2', args.p_title, output_file_path)
     elif args.mode == 'convert':
         # Read the gene results file
         data = read_file_with_fallback(args.file1)
-        if 'FPKM' in data.columns:
+        if 'TPM' in data.columns:
+            data['Calc_TPM'] = fpkm_to_tpm(data['FPKM'])
+        else: 
             data['TPM'] = fpkm_to_tpm(data['FPKM'])
-        else:
-            print("Error: 'FPKM' column not found in the data for conversion.")
-            exit(1)
 
-        output_file_path = os.path.join(args.out_dir, "converted_data.csv")
+        output_file_path = f"{args.out_dir}/converted_data.csv"
         data.to_csv(output_file_path, index=False)
         print(f"Converted data saved to {output_file_path}")
 
