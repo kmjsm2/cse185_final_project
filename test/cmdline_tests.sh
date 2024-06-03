@@ -49,7 +49,7 @@ TMPDIR=$(mktemp -d -t tmp-XXXXXXXXXX)
 echo "Saving tmp files in ${TMPDIR}"
 
 # Define the path to quantgene.py
-QUANTGENE_PATH="/Users/zoekim/Documents/GitHub/cse185_final_project/quantgene/quantgene.py"
+QUANTGENE_PATH="$QUANTGENE_DIR/quantgene.py"
 
 # Successful tests
 if [ "$MODE" = "scatter" ]; then
