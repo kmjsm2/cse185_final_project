@@ -3,7 +3,7 @@
 # Example usage
 echo "Example usage:"
 echo "  $0 scatter /path/to/first_file /path/to/second_file /path/to/output_directory --p_title 'My Scatter Plot' --o_title 'scatter_plot.png'"
-echo "  $0 convert /path/to/tpm_file /path/to/output_directory --conversion fpkm_to_tpm"
+echo "  $0 convert /path/to/fpkm_file /path/to/output_directory --conversion fpkm_to_tpm"
 echo
 
 # Usage function to display help
@@ -37,13 +37,15 @@ fi
 MODE=$1
 FILE1=$2
 OUT_DIR=$3
+shift 3
+
+# Default values for optional arguments
 FILE2=""
 PTITLE="Gene Expression Comparison"
 OTITLE="TPM_Scatter_Plot.png"
 CONVERSION=""
 
 # Parse additional options
-shift 3
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --p_title)
@@ -59,10 +61,10 @@ while [ "$#" -gt 0 ]; do
       shift 2
       ;;
     *)
-      if [ -z "$FILE2" ]; then
+      if [ -z "$FILE2" ] && [ "$MODE" = "scatter" ]; then
         FILE2=$1
       else
-        echo "Unknown option: $1"
+        echo "Unknown option or file2 already set: $1"
         usage
       fi
       shift 1
@@ -70,23 +72,24 @@ while [ "$#" -gt 0 ]; do
   esac
 done
 
+# Check for required arguments based on mode
+if [ "$MODE" = "scatter" ] && [ -z "$FILE2" ]; then
+  echo "Error: file2 is required for scatter mode"
+  usage
+elif [ "$MODE" = "convert" ] && [ -z "$CONVERSION" ]; then
+  echo "Error: --conversion option is required for convert mode"
+  usage
+fi
+
 # Determine the path to quantgene.py relative to this script
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 QUANTGENE_PY="$SCRIPT_DIR/../quantgene/quantgene.py"
 
 # Execute the Python script based on the mode
 if [ "$MODE" = "scatter" ]; then
-  if [ -z "$FILE2" ]; then
-    echo "Error: file2 is required for scatter mode"
-    usage
-  fi
   echo "Running scatter plot mode..."
   python3 "$QUANTGENE_PY" scatter "$FILE1" "$FILE2" "$OUT_DIR" --p_title "$PTITLE" --o_title "$OTITLE"
 elif [ "$MODE" = "convert" ]; then
-  if [ -z "$CONVERSION" ]; then
-    echo "Error: --conversion option is required for convert mode"
-    usage
-  fi
   echo "Running convert mode..."
   python3 "$QUANTGENE_PY" convert "$FILE1" "$OUT_DIR" --conversion "$CONVERSION"
 else
