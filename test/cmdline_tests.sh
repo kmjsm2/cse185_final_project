@@ -12,13 +12,23 @@ die()
 runcmd_pass()
 {
     echo "[runcmd_pass]: $1"
-    sh -c "$1" 2>/dev/null || die "Error running: $1"
+    if command -v /usr/bin/time &> /dev/null
+    then
+        /usr/bin/time -v sh -c "$1" 2>&1 | tee >(grep -E 'Elapsed \(wall clock\) time|Maximum resident set size') || die "Error running: $1"
+    else
+        /bin/time -v sh -c "$1" 2>&1 | tee >(grep -E 'elapsed|maximum resident set size') || die "Error running: $1"
+    fi
 }
 
 runcmd_fail()
 {
     echo "[runcmd_fail]: $1"
-    sh -c "$1" && die "Command should have failed: $1"
+    if command -v /usr/bin/time &> /dev/null
+    then
+        /usr/bin/time -v sh -c "$1" 2>&1 | tee >(grep -E 'Elapsed \(wall clock\) time|Maximum resident set size') && die "Command should have failed: $1"
+    else
+        /bin/time -v sh -c "$1" 2>&1 | tee >(grep -E 'elapsed|maximum resident set size') && die "Command should have failed: $1"
+    fi
 }
 
 if [ $# -lt 3 ]; then
