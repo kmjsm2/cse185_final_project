@@ -3,7 +3,7 @@
 ## Download 
 To download this tool, clone this repository:
 ```
-git clone https://github.com/kmjsm2/cse185_final_project
+git clone https://github.com/kmjsm2/quantgene
 ```
 Then change the current folder to quantgene by:
 ```
