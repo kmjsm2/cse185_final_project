@@ -3,7 +3,7 @@
 # Example usage
 echo "Example usage:"
 echo "  $0 scatter /path/to/first_file /path/to/second_file /path/to/output_directory --p_title 'My Scatter Plot' --o_title 'scatter_plot.png'"
-echo "  $0 convert /path/to/fpkm_file /path/to/output_directory --conversion fpkm_to_tpm"
+echo "  $0 convert /path/to/fpkm_file /path/to/output_directory "
 echo
 
 # Usage function to display help
@@ -23,7 +23,6 @@ usage() {
   echo "Options:"
   echo "  --p_title    - Title of the scatter plot (optional, scatter mode only)"
   echo "  --o_title    - Name of the output scatter plot file (optional, scatter mode only)"
-  echo "  --conversion - Type of conversion (required for convert mode): fpkm_to_tpm or tpm_to_fpkm"
   echo
   exit 1
 }
