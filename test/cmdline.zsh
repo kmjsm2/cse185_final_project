@@ -3,7 +3,7 @@
 # Example usage
 echo "Example usage:"
 echo "  $0 scatter /path/to/first_file /path/to/second_file /path/to/output_directory --p_title 'My Scatter Plot' --o_title 'scatter_plot.png'"
-echo "  $0 convert /path/to/fpkm_file /path/to/output_directory "
+echo "  $0 convert /path/to/fpkm_file /path/to/output_directory"
 echo
 
 # Usage function to display help
@@ -12,7 +12,7 @@ usage() {
   echo
   echo "Modes:"
   echo "  scatter  - Create a scatter plot from two gene results files"
-  echo "  convert  - Convert gene expression values (FPKM to TPM or TPM to FPKM)"
+  echo "  convert  - Convert gene expression values (FPKM to TPM)"
   echo
   echo "Arguments:"
   echo "  mode     - Mode of operation: scatter or convert"
@@ -39,7 +39,6 @@ OUT_DIR=$3
 FILE2=""
 PTITLE="Gene Expression Comparison"
 OTITLE="TPM_Scatter_Plot.png"
-CONVERSION=""
 
 # Parse additional options
 shift 3
@@ -51,10 +50,6 @@ while [ "$#" -gt 0 ]; do
       ;;
     --o_title)
       OTITLE=$2
-      shift 2
-      ;;
-    --conversion)
-      CONVERSION=$2
       shift 2
       ;;
     *)
@@ -82,12 +77,8 @@ if [ "$MODE" = "scatter" ]; then
   echo "Running scatter plot mode..."
   python3 "$QUANTGENE_PY" scatter "$FILE1" "$FILE2" "$OUT_DIR" --p_title "$PTITLE" --o_title "$OTITLE"
 elif [ "$MODE" = "convert" ]; then
-  if [ -z "$CONVERSION" ]; then
-    echo "Error: --conversion option is required for convert mode"
-    usage
-  fi
   echo "Running convert mode..."
-  python3 "$QUANTGENE_PY" convert "$FILE1" "$OUT_DIR" --conversion "$CONVERSION"
+  python3 "$QUANTGENE_PY" convert "$FILE1" "$OUT_DIR"
 else
   echo "Unknown mode: $MODE"
   usage
