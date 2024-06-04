@@ -88,6 +88,7 @@ def main():
     parser.add_argument('out_dir', type=str, help='Directory to save the output plot or converted files')
     parser.add_argument('--p_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
     parser.add_argument('--o_title', type=str, default='TPM_Scatter_Plot.png', help='Name of the output scatter plot file')
+    parser.add_argument('--convert_output', type=str, default='converted_data.csv', help='Name of the output file for convert mode')
     args = parser.parse_args()
 
     if args.mode == 'scatter':
@@ -105,11 +106,9 @@ def main():
         else: 
             data['TPM'] = fpkm_to_tpm(data['FPKM'])
 
-        output_file_path = f"{args.out_dir}/converted_data.csv"
+        output_file_path = f"{args.out_dir}/{args.convert_output}"
         data.to_csv(output_file_path, index=False)
         print(f"Converted data saved to {output_file_path}")
 
 if __name__ == '__main__':
     main()
-
-
