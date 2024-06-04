@@ -91,11 +91,11 @@ def process_directory(input_dir, output_dir):
             file_path = os.path.join(input_dir, file_name)
             data = read_file_with_fallback(file_path)
             tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
-            tpm_df = pd.DataFrame(tpm_data, columns=data.columns[1:], index=data['gene_id'])
-            tpm_df.insert(0, 'gene_id', data['gene_id'])
+            for i, col in enumerate(data.columns[1:]):
+                data[f'TPM'] = tpm_data[:, i]
             output_file_name = file_name.replace('_fpkm.csv', '_tpm.csv')
             output_file_path = os.path.join(output_dir, output_file_name)
-            tpm_df.to_csv(output_file_path, index=False)
+            data.to_csv(output_file_path, index=False)
             print(f"Converted file saved to {output_file_path}")
 
 def main():
@@ -125,11 +125,10 @@ def main():
             # Read the gene results file
             data = read_file_with_fallback(args.file1)
             tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
-            tpm_df = pd.DataFrame(tpm_data, columns=data.columns[1:], index=data['gene_id'])
-            tpm_df.insert(0, 'gene_id', data['gene_id'])
-
+            for i, col in enumerate(data.columns[1:]):
+                data[f'TPM_{col}'] = tpm_data[:, i]
             output_file_path = f"{args.out_dir}/{args.convert_output}"
-            tpm_df.to_csv(output_file_path, index=False)
+            data.to_csv(output_file_path, index=False)
             print(f"Converted data saved to {output_file_path}")
 
 if __name__ == '__main__':
