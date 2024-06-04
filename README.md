@@ -24,7 +24,7 @@ pip install .
 ## Basic usage
 To run `quantgene` 
 ```
-quantgene [-h] [--p_title P_TITLE] [--o_title O_TITLE] [--converted CONVERTED] [--input_dir INPUT_DIR] {scatter,convert} file1 [file2] out_dir
+quantgene [-h] [--x_label X_LABEL] [--y_label Y_LABEL] [--p_title P_TITLE] [--o_title O_TITLE] [--converted CONVERTED] [—input_dir INPUT_DIR]{scatter,convert} file1 [file2] out_dir
 ```
 ```
 required arguments:
@@ -34,6 +34,8 @@ required arguments:
   out_dir            Directory to save the output plot or converted files
 options:
   -h, --help            show this help message and exit
+  --x_label X_LABEL     Label for x-axis
+  --y_label Y_LABEL     Label for y-axis
   --p_title P_TITLE     Title of the scatter plot
   --o_title O_TITLE     Name of the output scatter plot file
   --converted CONVERTED
