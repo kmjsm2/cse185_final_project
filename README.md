@@ -24,7 +24,7 @@ pip install .
 ## Basic usage
 To run `quantgene` 
 ```
-quantgene {scatter,convert} [-h] [--p_title P_TITLE] [--o_title O_TITLE] file1 [file2] out_dir
+quantgene [-h] [--p_title P_TITLE] [--o_title O_TITLE] [--converted CONVERTED] [--input_dir INPUT_DIR] {scatter,convert} file1 [file2] out_dir
 ```
 ```
 required arguments:
@@ -33,9 +33,13 @@ required arguments:
   file2              Path to the second gene.results file (not required for convert mode)
   out_dir            Directory to save the output plot or converted files
 options:
-  -h, --help         show this help message and exit
-  --p_title P_TITLE  Title of the scatter plot
-  --o_title O_TITLE  Title of the scatter plot.png
+  -h, --help            show this help message and exit
+  --p_title P_TITLE     Title of the scatter plot
+  --o_title O_TITLE     Name of the output scatter plot file
+  --converted CONVERTED
+                        Name of the output file for convert mode
+  --input_dir INPUT_DIR
+                        Directory containing input files for batch conversion
 ```
 Example to use convert: 
 ```
