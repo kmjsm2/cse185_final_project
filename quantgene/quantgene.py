@@ -2,6 +2,7 @@ import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
 def read_file_with_fallback(file_path):
     """
@@ -79,6 +80,24 @@ def fpkm_to_tpm(fpkm):
     tpm = (fpkm / sum_fpkm) * 1e6
     return tpm
 
+def process_directory(input_dir, output_dir):
+    """
+    Process all CSV files in the input directory, converting FPKM to TPM and saving with appropriate names.
+    :param input_dir: Directory containing the input files.
+    :param output_dir: Directory to save the output files.
+    """
+    for file_name in os.listdir(input_dir):
+        if file_name.endswith('_fpkm.csv'):
+            file_path = os.path.join(input_dir, file_name)
+            data = read_file_with_fallback(file_path)
+            tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
+            tpm_df = pd.DataFrame(tpm_data, columns=data.columns[1:], index=data['gene_id'])
+            tpm_df.insert(0, 'gene_id', data['gene_id'])
+            output_file_name = file_name.replace('_fpkm.csv', '_tpm.csv')
+            output_file_path = os.path.join(output_dir, output_file_name)
+            tpm_df.to_csv(output_file_path, index=False)
+            print(f"Converted file saved to {output_file_path}")
+
 def main():
     parser = argparse.ArgumentParser(prog="quantgene",
                                      description="Command-line script to create scatter plot from two inputs of gene.results files and convert from FPKM to TPM")
@@ -89,6 +108,7 @@ def main():
     parser.add_argument('--p_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
     parser.add_argument('--o_title', type=str, default='TPM_Scatter_Plot.png', help='Name of the output scatter plot file')
     parser.add_argument('--convert_output', type=str, default='converted_data.csv', help='Name of the output file for convert mode')
+    parser.add_argument('--input_dir', type=str, help='Directory containing input files for batch conversion')
     args = parser.parse_args()
 
     if args.mode == 'scatter':
@@ -99,16 +119,18 @@ def main():
         output_file_path = f"{args.out_dir}/{args.o_title}"
         generate_scatter_plot(data_merged, 'TPM_Rep1', 'TPM_Rep2', args.p_title, output_file_path)
     elif args.mode == 'convert':
-        # Read the gene results file
-        data = read_file_with_fallback(args.file1)
-        if 'TPM' in data.columns:
-            data['Calc_TPM'] = fpkm_to_tpm(data['FPKM'])
-        else: 
-            data['TPM'] = fpkm_to_tpm(data['FPKM'])
+        if args.input_dir:
+            process_directory(args.input_dir, args.out_dir)
+        else:
+            # Read the gene results file
+            data = read_file_with_fallback(args.file1)
+            tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
+            tpm_df = pd.DataFrame(tpm_data, columns=data.columns[1:], index=data['gene_id'])
+            tpm_df.insert(0, 'gene_id', data['gene_id'])
 
-        output_file_path = f"{args.out_dir}/{args.convert_output}"
-        data.to_csv(output_file_path, index=False)
-        print(f"Converted data saved to {output_file_path}")
+            output_file_path = f"{args.out_dir}/{args.convert_output}"
+            tpm_df.to_csv(output_file_path, index=False)
+            print(f"Converted data saved to {output_file_path}")
 
 if __name__ == '__main__':
     main()
