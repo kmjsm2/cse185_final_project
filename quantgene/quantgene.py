@@ -125,8 +125,11 @@ def main():
             # Read the gene results file
             data = read_file_with_fallback(args.file1)
             tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
-            for i, col in enumerate(data.columns[1:]):
-                data[f'TPM'] = tpm_data[:, i]
+            if 'TPM' in data.columns:
+                data['Calc_TPM'] = fpkm_to_tpm(data['FPKM'])
+            else:
+                for i, col in enumerate(data.columns[1:]):
+                    data[f'TPM'] = tpm_data[:, i]
             output_file_path = f"{args.out_dir}/{args.convert_output}"
             data.to_csv(output_file_path, index=False)
             print(f"Converted data saved to {output_file_path}")
