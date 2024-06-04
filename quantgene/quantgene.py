@@ -130,7 +130,7 @@ def main():
                 tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
                 for i, col in enumerate(data.columns[1:]):
                     data[f'TPM'] = tpm_data[:, i]
-            output_file_path = f"{args.out_dir}/{args.convert_output}"
+            output_file_path = f"{args.out_dir}/{args.converted}"
             data.to_csv(output_file_path, index=False)
             print(f"Converted data saved to {output_file_path}")
 
