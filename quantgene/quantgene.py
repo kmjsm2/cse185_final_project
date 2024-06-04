@@ -107,7 +107,7 @@ def main():
     parser.add_argument('out_dir', type=str, help='Directory to save the output plot or converted files')
     parser.add_argument('--p_title', type=str, default='Gene Expression Comparison', help='Title of the scatter plot')
     parser.add_argument('--o_title', type=str, default='TPM_Scatter_Plot.png', help='Name of the output scatter plot file')
-    parser.add_argument('--convert_output', type=str, default='converted_data.csv', help='Name of the output file for convert mode')
+    parser.add_argument('--converted', type=str, default='converted_data.csv', help='Name of the output file for convert mode')
     parser.add_argument('--input_dir', type=str, help='Directory containing input files for batch conversion')
     args = parser.parse_args()
 
