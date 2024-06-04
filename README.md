@@ -1,11 +1,20 @@
 # quantgene
-`quantgene` takes in file with relative gene expression units as a input and outputs file includin converted TPM value or scatter plot of TPM values based on the user's choice.
-## Installiation 
-Installiation requires the `pandas`, `numpy`, and `matplotlib.pyplot` libraries to be installed. 
+`quantgene` takes in file with relative gene expression units as a input and outputs file including converted TPM value or scatter plot of TPM values based on the user's choice.
+## Download 
+To download this tool, clone this repository:
+```
+git clone https://github.com/kmjsm2/quantgene
+```
+Then change the current folder to quantgene by:
+```
+cd quantgene
+```
+## Installiation  
+`quantgene` requires the `pandas`, `numpy`, and `matplotlib.pyplot` libraries to be installed. 
 
 To install those libraries: 
 ```
-pip install -r requirements.txt
+pip install pandas numpy matplotlib
 ```
 
 After required libraries installed, install `quantgene` by below command: 
@@ -15,7 +24,7 @@ pip install .
 ## Basic usage
 To run `quantgene` 
 ```
-quantgene {scatter,convert} [-h] [--p_title P_TITLE] [--o_title O_TITLE] file1 [file2] out_dir
+quantgene [-h] [--x_label X_LABEL] [--y_label Y_LABEL] [--p_title P_TITLE] [--o_title O_TITLE] [--converted CONVERTED] [—input_dir INPUT_DIR]{scatter,convert} file1 [file2] out_dir
 ```
 ```
 required arguments:
@@ -24,9 +33,15 @@ required arguments:
   file2              Path to the second gene.results file (not required for convert mode)
   out_dir            Directory to save the output plot or converted files
 options:
-  -h, --help         show this help message and exit
-  --p_title P_TITLE  Title of the scatter plot
-  --o_title O_TITLE  Title of the scatter plot.png
+  -h, --help            show this help message and exit
+  --x_label X_LABEL     Label for x-axis
+  --y_label Y_LABEL     Label for y-axis
+  --p_title P_TITLE     Title of the scatter plot
+  --o_title O_TITLE     Name of the output scatter plot file
+  --converted CONVERTED
+                        Name of the output file for convert mode
+  --input_dir INPUT_DIR
+                        Directory containing input files for batch conversion
 ```
 Example to use convert: 
 ```

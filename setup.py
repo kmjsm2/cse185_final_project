@@ -23,6 +23,7 @@ setup(
     author='Nayoung Kim, MyungJoo Kim, Soyeon Lee',
     author_email='nak003@ucsd.edu, myk001@ucsd.edu, sol020@ucsd.edu',
     packages=find_packages(),
+    
     entry_points={
         "console_scripts": [
             "quantgene=quantgene.quantgene:main"
