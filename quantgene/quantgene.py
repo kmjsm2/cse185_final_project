@@ -127,6 +127,7 @@ def main():
         # Generate scatter plot
         output_file_path = f"{args.out_dir}/{o_title}"
         generate_scatter_plot(data_merged, 'TPM_Rep1', 'TPM_Rep2', title, output_file_path, x_label, y_label)
+        print(f"Scatter plot saved to {output_file_path}")
     elif args.mode == 'convert':
         if args.input_dir:
             process_directory(args.input_dir, args.out_dir)
