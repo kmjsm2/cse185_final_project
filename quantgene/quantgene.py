@@ -102,15 +102,15 @@ def main():
     parser = argparse.ArgumentParser(prog="quantgene",
                                      description="Command-line script to create scatter plot from two inputs of gene.results files and convert from FPKM to TPM")
     parser.add_argument('mode', type=str, choices=['scatter', 'convert'], help='Mode of operation: scatter for scatter plot, convert for gene expression conversion')
-    parser.add_argument('file1', type=str, help='Path to the first gene.results file')
-    parser.add_argument('file2', type=str, help='Path to the second gene.results file (not required for convert mode)', nargs='?')
+    parser.add_argument('file1', type=str, help='Path to the first file, need to have column gene_id and FPKM for convert and TPM for scatter')
+    parser.add_argument('file2', type=str, help='Path to the second file (not required for convert mode), need to have column TPM for scatter', nargs='?')
     parser.add_argument('out_dir', type=str, help='Directory to save the output plot or converted files')
     parser.add_argument('--x_label', type=str, help='Label for x-axis')
     parser.add_argument('--y_label', type=str, help='Label for y-axis')
     parser.add_argument('--p_title', type=str, help='Title of the scatter plot')
     parser.add_argument('--o_title', type=str, help='Name of the output scatter plot file')
     parser.add_argument('--converted', type=str, help='Name of the output file for convert mode')
-    parser.add_argument('--input_dir', type=str, help='Directory containing input files for batch conversion')
+    parser.add_argument('--input_dir', type=str, help='Directory containing input files for batch conversion, files must be ending with _fpkm.csv and each file have column gene_id and FPKM')
     args = parser.parse_args()
 
     file1_name = os.path.splitext(os.path.basename(args.file1))[0]
