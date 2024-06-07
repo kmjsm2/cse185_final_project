@@ -29,8 +29,8 @@ quantgene [-h] [--x_label X_LABEL] [--y_label Y_LABEL] [--p_title P_TITLE] [--o_
 ```
 required arguments:
   {scatter,convert}  Mode of operation: scatter for scatter plot, convert for gene expression conversion
-  file1              Path to the first gene.results file
-  file2              Path to the second gene.results file (not required for convert mode)
+  file1              Path to the first file, need to have column gene_id and FPKM for convert and TPM for scatter
+  file2              Path to the second file (not required for convert mode), need to have column TPM for scatter
   out_dir            Directory to save the output plot or converted files
 options:
   -h, --help            show this help message and exit
@@ -41,7 +41,7 @@ options:
   --converted CONVERTED
                         Name of the output file for convert mode
   --input_dir INPUT_DIR
-                        Directory containing input files for batch conversion
+                        Directory containing input files for batch conversion, files must be ending with _fpkm.csv and each file have column gene_id and FPKM
 ```
 Example to use convert: 
 ```
