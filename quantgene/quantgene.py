@@ -1,15 +1,20 @@
+"""
+command-line script to quantify the gene expression level 
+by enabling the unit coversion from FPKM to TPM ('convert') and generating the scatter plot that compares the TPM value for replicates
+"""
 import argparse
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+
+# Read a gene expression file, trying tab delimiter first and then comma delimiter if tab fails or column not found.
+# param file_path: Path to the gene.results file
+# return: DataFrame with gene expression data
+
 def read_file_with_fallback(file_path):
-    """
-    Read a gene expression file, trying tab delimiter first and then comma delimiter if tab fails or column not found.
-    :param file_path: Path to the gene.results file
-    :return: DataFrame with gene expression data
-    """
+
     try:
         data = pd.read_csv(file_path, sep='\t')
         data.columns = data.columns.str.strip()  # Remove any leading/trailing whitespace from column names
@@ -26,13 +31,14 @@ def read_file_with_fallback(file_path):
             exit(1)
     return data
 
+
+# Read and merge gene expression results from two input files. (used for 'scatter' option)
+# param file_path1: Path to the first input file
+# param file_path2: Path to the second input file
+# return: Merged DataFrame with gene expression data
+
 def read_and_merge_gene_results(file_path1, file_path2):
-    """
-    Read and merge gene expression results from two specified files.
-    :param file_path1: Path to the first .gene.results file
-    :param file_path2: Path to the second .gene.results file
-    :return: Merged DataFrame with gene expression data
-    """
+
     try:
         data1 = read_file_with_fallback(file_path1)
         data2 = read_file_with_fallback(file_path2)
@@ -51,15 +57,16 @@ def read_and_merge_gene_results(file_path1, file_path2):
         print(f"Error reading or merging gene results files: {e}")
         exit(1)
 
+
+# Generate a scatter plot from the data, transforming TPM values using log10.
+# param data: DataFrame containing the merged data
+# param x_column: Column name for x-axis
+# param y_column: Column name for y-axis
+# param title: Title of the plot
+# param output_file: Path to save the output plot
+
 def generate_scatter_plot(data, x_column, y_column, title, output_file, x_axis, y_axis):
-    """
-    Generate a scatter plot from the data, transforming TPM values using log10.
-    :param data: DataFrame containing the merged data
-    :param x_column: Column name for x-axis
-    :param y_column: Column name for y-axis
-    :param title: Title of the plot
-    :param output_file: Path to save the output plot
-    """
+
     plt.figure(figsize=(10, 6))
     xvals = np.log10(data[x_column] + 1)  # Apply log10 transformation
     yvals = np.log10(data[y_column] + 1)  # Apply log10 transformation
@@ -70,22 +77,24 @@ def generate_scatter_plot(data, x_column, y_column, title, output_file, x_axis, 
     plt.savefig(output_file)
     plt.close()
 
+
+# Convert FPKM to TPM. (used for 'convert' option)
+# param fpkm: FPKM values
+# return: TPM values
+
 def fpkm_to_tpm(fpkm):
-    """
-    Convert FPKM to TPM.
-    :param fpkm: FPKM values
-    :return: TPM values
-    """
+
     sum_fpkm = np.sum(fpkm, axis=0)
     tpm = (fpkm / sum_fpkm) * 1e6
     return tpm
 
+
+# Process all CSV files in the input directory, converting FPKM to TPM and saving with appropriate names.
+# param input_dir: Directory containing the input files.
+# param output_dir: Directory to save the output files.
+
 def process_directory(input_dir, output_dir):
-    """
-    Process all CSV files in the input directory, converting FPKM to TPM and saving with appropriate names.
-    :param input_dir: Directory containing the input files.
-    :param output_dir: Directory to save the output files.
-    """
+
     for file_name in os.listdir(input_dir):
         if file_name.endswith('_fpkm.csv'):
             file_path = os.path.join(input_dir, file_name)
@@ -93,7 +102,7 @@ def process_directory(input_dir, output_dir):
             tpm_data = fpkm_to_tpm(data.iloc[:, 1:].values)
             for i, col in enumerate(data.columns[1:]):
                 data[f'TPM'] = tpm_data[:, i]
-            output_file_name = file_name.replace('_fpkm.csv', '_tpm.csv')
+            output_file_name = file_name.replace('_fpkm.csv', '_converted.csv')
             output_file_path = os.path.join(output_dir, output_file_name)
             data.to_csv(output_file_path, index=False)
             print(f"Converted file saved to {output_file_path}")
