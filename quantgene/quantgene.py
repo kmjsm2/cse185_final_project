@@ -14,7 +14,6 @@ import os
 # return: DataFrame with gene expression data
 
 def read_file_with_fallback(file_path):
-
     try:
         data = pd.read_csv(file_path, sep='\t')
         data.columns = data.columns.str.strip()  # Remove any leading/trailing whitespace from column names
@@ -38,7 +37,6 @@ def read_file_with_fallback(file_path):
 # return: Merged DataFrame with gene expression data
 
 def read_and_merge_gene_results(file_path1, file_path2):
-
     try:
         data1 = read_file_with_fallback(file_path1)
         data2 = read_file_with_fallback(file_path2)
@@ -66,7 +64,6 @@ def read_and_merge_gene_results(file_path1, file_path2):
 # param output_file: Path to save the output plot
 
 def generate_scatter_plot(data, x_column, y_column, title, output_file, x_axis, y_axis):
-
     plt.figure(figsize=(10, 6))
     xvals = np.log10(data[x_column] + 1)  # Apply log10 transformation
     yvals = np.log10(data[y_column] + 1)  # Apply log10 transformation
@@ -83,7 +80,6 @@ def generate_scatter_plot(data, x_column, y_column, title, output_file, x_axis, 
 # return: TPM values
 
 def fpkm_to_tpm(fpkm):
-
     sum_fpkm = np.sum(fpkm, axis=0)
     tpm = (fpkm / sum_fpkm) * 1e6
     return tpm
