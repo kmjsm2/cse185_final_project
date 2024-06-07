@@ -85,7 +85,6 @@ def fpkm_to_tpm(fpkm):
 # param input_dir: Directory containing the input files.
 # param output_dir: Directory to save the output files.
 def process_directory(input_dir, output_dir):
-
     for file_name in os.listdir(input_dir):
         if file_name.endswith('_fpkm.csv'):
             file_path = os.path.join(input_dir, file_name)
