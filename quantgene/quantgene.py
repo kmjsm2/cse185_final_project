@@ -12,7 +12,6 @@ import os
 # Read a gene expression file, trying tab delimiter first and then comma delimiter if tab fails or column not found.
 # param file_path: Path to the gene.results file
 # return: DataFrame with gene expression data
-
 def read_file_with_fallback(file_path):
     try:
         data = pd.read_csv(file_path, sep='\t')
@@ -35,7 +34,6 @@ def read_file_with_fallback(file_path):
 # param file_path1: Path to the first input file
 # param file_path2: Path to the second input file
 # return: Merged DataFrame with gene expression data
-
 def read_and_merge_gene_results(file_path1, file_path2):
     try:
         data1 = read_file_with_fallback(file_path1)
@@ -62,7 +60,6 @@ def read_and_merge_gene_results(file_path1, file_path2):
 # param y_column: Column name for y-axis
 # param title: Title of the plot
 # param output_file: Path to save the output plot
-
 def generate_scatter_plot(data, x_column, y_column, title, output_file, x_axis, y_axis):
     plt.figure(figsize=(10, 6))
     xvals = np.log10(data[x_column] + 1)  # Apply log10 transformation
@@ -78,7 +75,6 @@ def generate_scatter_plot(data, x_column, y_column, title, output_file, x_axis, 
 # Convert FPKM to TPM. (used for 'convert' option)
 # param fpkm: FPKM values
 # return: TPM values
-
 def fpkm_to_tpm(fpkm):
     sum_fpkm = np.sum(fpkm, axis=0)
     tpm = (fpkm / sum_fpkm) * 1e6
@@ -88,7 +84,6 @@ def fpkm_to_tpm(fpkm):
 # Process all CSV files in the input directory, converting FPKM to TPM and saving with appropriate names.
 # param input_dir: Directory containing the input files.
 # param output_dir: Directory to save the output files.
-
 def process_directory(input_dir, output_dir):
 
     for file_name in os.listdir(input_dir):
